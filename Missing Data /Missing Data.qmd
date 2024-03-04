@@ -5,6 +5,7 @@ format: pdf
 date: today
 thanks: "Code and data are available at: https://github.com/KyungrokP/Missing-data-exercise.git"
 editor: visual
+bibliography: references.bib
 ---
 
 ```{r}
@@ -36,22 +37,24 @@ penguins_bill_length <-
   select(species, bill_length_mm)
 ```
 
-
 ```{r}
 penguins_bill_length |>
   summary()
 ```
-The above summary statistic indicates that there are 3 different species of palmerpenguins (Adelie, Chinstrap, Gentoo) , and their mean bill length as 43.92 mm. 
-However, for the bill length (mm), I observed that there are two missing values from the original data set. 
+
+The above summary statistic indicates that there are 3 different species of palmerpenguins (Adelie, Chinstrap, Gentoo) , and their mean bill length as 43.92 mm. However, for the bill length (mm), I observed that there are two missing values from the original data set.
 
 ## Missing Data from Palmerpenguins
+
 ```{r}
 penguins_bill_length <- penguins_bill_length[complete.cases
                                                  (penguins_bill_length), ]
 ```
-To explore the imputation for missing values, we first drop two NA values mentioned above from the original data set. 
 
-### MCAR 
+To explore the imputation for missing values, we first drop two NA values mentioned above from the original data set.
+
+### MCAR
+
 ```{r}
 set.seed(213)
 penguins_mcar <-
@@ -61,11 +64,10 @@ penguins_mcar <-
 penguins_mcar |>
   summary()
 ```
-Out of three cases for missing values, I chose to simulate for "Missing Completely At Random (MCAR)" case.
-I randomly selected 3 indexes from the data set, and make the bill length (mm) of those 3 selected indexes as NA values.
 
-### Imputation 
+Out of three cases for missing values, I chose to simulate for "Missing Completely At Random (MCAR)" case. I randomly selected 3 indexes from the data set, and make the bill length (mm) of those 3 selected indexes as NA values.
 
+### Imputation
 
 ```{r}
 #| include: false
@@ -104,6 +106,7 @@ penguins_bill_length$bill_length_mm[225]
 penguins_bill_length$bill_length_mm[272]
 penguins_bill_length$bill_length_mm[329]
 ```
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -120,9 +123,16 @@ f1 <- kable(tibble2)
 f1 
 ```
 
-For the mean replacement, I calculated the mean of bill length for each species and replaced missing values with those different mean length based on species. 
+For the mean replacement, I calculated the mean of bill length for each species and replaced missing values with those different mean length based on species.
 
 As @tbl-1 shows, both of multiple imputation and mean replacement do not show notable difference from the actual mean of bill length (mm).
 
 Instead, we can observe quite differences between each value imputed using multiple imputation and each value imputed using mean imputation compared to the real values. This fact implies that if the number of missing values is not three but rather one-third of the data, it can lead to significant discrepancies in the overall mean value observed.
 
+\newpage
+
+# References
+
+---
+nocite: '@*'
+---
